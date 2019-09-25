@@ -1,4 +1,4 @@
-package wordcounter.view;
+package wordcounter.control;
 
 
 
@@ -132,6 +132,5 @@ public class main {
         }
         System.out.println(selectedFile.getAbsolutePath());
         return selectedFile.getAbsolutePath();
-
     }
 }
