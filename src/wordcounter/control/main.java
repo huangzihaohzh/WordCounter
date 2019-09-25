@@ -1,7 +1,6 @@
 package wordcounter.control;
 
 
-
 import wordcounter.entity.TextFile;
 
 import javax.swing.*;
@@ -29,11 +28,11 @@ public class main {
         String fileNameRegex = "^[^-]\\S+$";
         for (String arg : args) {
             //判断是否为参数
-            if (Pattern.matches(parameterRegex,arg )) {
+            if (Pattern.matches(parameterRegex, arg)) {
                 parameters.add(arg);
             }
             //判断是否为地址或文件名
-            if (Pattern.matches(fileNameRegex,arg)) {
+            if (Pattern.matches(fileNameRegex, arg)) {
                 fileName = arg;
             }
         }
@@ -50,54 +49,54 @@ public class main {
             return;
         }*/
         //检查文件是否需要通过文件选择框选取
-        for(String parameter:parameters){
-            if(parameter.equals("-x")){
+        for (String parameter : parameters) {
+            if (parameter.equals("-x")) {
                 String path = getFilePathFromFileChooser();
                 //检查文件路径
-                if(path == null || path.equals("")){
+                if (path == null || path.equals("")) {
                     System.out.println("未选取文件");
                     return;
-                }else
+                } else
                     fileName = path;
             }
         }
         //根据用户输入执行不同的计算
-        try{
+        try {
             TextFile textFile = new TextFile(fileName);
-            for(String arg:parameters){
+            for (String arg : parameters) {
                 //用户选项为“-c”
-                if(arg.equals("-c")){
+                if (arg.equals("-c")) {
                     int charNum = textFile.charNumCounter();
-                    if(charNum>=0)
-                        System.out.println("文件字符数为："+charNum);
+                    if (charNum >= 0)
+                        System.out.println("文件字符数为：" + charNum);
                     else
                         System.out.println("字符数计算出错");
                 }
                 //用户选项为“-w”
-                if(arg.equals("-w")){
+                if (arg.equals("-w")) {
                     int wordNum = textFile.wordNumCounter();
-                    if(wordNum>=0)
-                        System.out.println("文件单词数为："+wordNum);
+                    if (wordNum >= 0)
+                        System.out.println("文件单词数为：" + wordNum);
                     else
                         System.out.println("单词计算出错");
                 }
                 //用户选项为“-l”
-                if(arg.equals("-l")){
+                if (arg.equals("-l")) {
                     int lineNum = textFile.lineNumCounter();
-                    if(lineNum>=0)
-                        System.out.println("文件行数为："+lineNum);
+                    if (lineNum >= 0)
+                        System.out.println("文件行数为：" + lineNum);
                     else
                         System.out.println("行数计算错误");
                 }
             }
-        } catch(FileNotFoundException fileNotFindException) {
+        } catch (FileNotFoundException fileNotFindException) {
             System.out.println("文件不存在");
             fileNotFindException.printStackTrace();
-        } catch(IOException IOEx) {
+        } catch (IOException IOEx) {
             System.out.println("I/O错误");
             IOEx.printStackTrace();
-        } catch (NullPointerException nullPointerException){
-            if(fileName == null)
+        } catch (NullPointerException nullPointerException) {
+            if (fileName == null)
                 System.out.println("文件名为空");
             else
                 System.out.println("文件输入错误");
@@ -120,14 +119,14 @@ public class main {
     }
 
     //从文件选择框选择文件
-    private static String getFilePathFromFileChooser(){
+    private static String getFilePathFromFileChooser() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("请选择文本文件");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);    //只支持选取文件
         fileChooser.setMultiSelectionEnabled(false);    //只支持选取单文件
-        fileChooser.showDialog(new JLabel(),"选择");
+        fileChooser.showDialog(new JLabel(), "选择");
         File selectedFile = fileChooser.getSelectedFile();
-        if(selectedFile==null){
+        if (selectedFile == null) {
             return null;
         }
         System.out.println(selectedFile.getAbsolutePath());
