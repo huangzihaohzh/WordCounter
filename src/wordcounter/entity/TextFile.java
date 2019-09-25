@@ -17,7 +17,7 @@ public class TextFile {
     /**
      * 通过接收String类型的文件路径来构建TextFile对象
      */
-    public TextFile(String aTextFilePath) throws FileNotFoundException,IOException{
+    public TextFile(String aTextFilePath) throws FileNotFoundException,IOException,NullPointerException{
         this.filePath = aTextFilePath;
         this.file = new File(this.filePath);
         this.fileStream = new FileInputStream(this.file);    // throws FileNotFindException
@@ -59,7 +59,7 @@ public class TextFile {
 
     /**
      * 计算文件行数
-     * 
+     *
      */
     public int lineNumCounter() throws IOException{
         return stringBuffer.toString().split("\\n").length;

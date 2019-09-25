@@ -4,6 +4,8 @@ package wordcounter.view;
 
 import wordcounter.entity.TextFile;
 
+import javax.swing.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class main {
         //检验参数是否有效，并保存为parameter和fileName两部分
         ArrayList<String> parameters = new ArrayList<String>();
         String fileName = null;
-        String parameterRegex = "-[cwlsa]";
+        String parameterRegex = "-[cwlxsa]";
         String fileNameRegex = "^[^-]\\S+$";
         for (String arg : args) {
             //判断是否为参数
@@ -41,10 +43,23 @@ public class main {
             printHelp();
             return;
         }
+        /*  暂时不检测文件名是否正确
         if (fileName == null) {
             System.out.println("缺少文件名");
             printHelp();
             return;
+        }*/
+        //检查文件是否需要通过文件选择框选取
+        for(String parameter:parameters){
+            if(parameter.equals("-x")){
+                String path = getFilePathFromFileChooser();
+                //检查文件路径
+                if(path == null || path.equals("")){
+                    System.out.println("未选取文件");
+                    return;
+                }else
+                    fileName = path;
+            }
         }
         //根据用户输入执行不同的计算
         try{
@@ -81,6 +96,12 @@ public class main {
         } catch(IOException IOEx) {
             System.out.println("I/O错误");
             IOEx.printStackTrace();
+        } catch (NullPointerException nullPointerException){
+            if(fileName == null)
+                System.out.println("文件名为空");
+            else
+                System.out.println("文件输入错误");
+            nullPointerException.printStackTrace();
         }
 
     }
@@ -96,5 +117,21 @@ public class main {
                 "文件名：\n" +
                 "    首字符不能为“-”";
         System.out.println(help);
+    }
+
+    //从文件选择框选择文件
+    private static String getFilePathFromFileChooser(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("请选择文本文件");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);    //只支持选取文件
+        fileChooser.setMultiSelectionEnabled(false);    //只支持选取单文件
+        fileChooser.showDialog(new JLabel(),"选择");
+        File selectedFile = fileChooser.getSelectedFile();
+        if(selectedFile==null){
+            return null;
+        }
+        System.out.println(selectedFile.getAbsolutePath());
+        return selectedFile.getAbsolutePath();
+
     }
 }
