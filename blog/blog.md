@@ -145,4 +145,111 @@
 2. 参数提取与存储：对用户输入进行分类存储，用户输入参数存到参数列表中，地址/文件名存入到一个字符串字段中。
 3. 按用户参数进行不同的操作：遍历参数列表，对不同的参数调用对应的方法获取计数值并加以显示。  
 ### 流程图如下
-[](/)
+![](img/processImg.png)
+
+## 五、测试
+### 单元测试
+#### 测试代码
+```
+public class Test {
+    private TextFile textFile = null;
+
+
+    //Constructor
+    public Test(String filePath) throws Exception{
+        this.textFile = new TextFile(filePath);
+    }
+
+    //测试TextFile.charNumCounter()
+    public void testCharNumCounter(){
+        int charNum = textFile.charNumCounter();
+        if(charNum>=0)
+            System.out.println("文件字符数为："+charNum);
+        else
+            System.out.println("字符数计算出错");
+    }
+
+    //测试TextFile.wordNumCounter()
+    public void testWordNumCounter(){
+        int wordNum = textFile.wordNumCounter();
+        if(wordNum>=0)
+            System.out.println("文件单词数为："+wordNum);
+        else
+            System.out.println("单词计算出错");
+    }
+
+    //测试TextFile.lineNumCounter()
+    public void testLineNumCounter() throws IOException {
+        int lineNum = textFile.lineNumCounter();
+        if(lineNum>=0)
+            System.out.println("文件行数为："+lineNum);
+        else
+            System.out.println("行数计算错误");
+    }
+}
+```
+#### 测试结果
+```
+D:\123.txt
+文件字符数为：80
+文件单词数为：6
+文件行数为：2
+```
+### 整体测试
+#### 空文件测试（内有一空行，文件大小0KB）
+命令：java -jar wc.jar -c -w -l "D:\test_txt\Empty.txt"  
+测试结果：
+```
+文件字符数为：0
+文件单词数为：0
+文件行数为：1
+```
+#### 只有一个字符的文件测试
+命令：java -jar wc.jar -c -w -l "D:\test_txt\OnlyOneChar.txt"  
+测试结果：
+```
+文件字符数为：1
+文件单词数为：0
+文件行数为：1
+```
+#### 只有一个词的文件测试
+命令：java -jar wc.jar -c -w -l "D:\test_txt\OnlyOneWord.txt"  
+测试结果：
+```
+文件字符数为：4
+文件单词数为：1
+文件行数为：1
+```
+#### 只有一行的文件测试
+命令：java -jar wc.jar -c -w -l "D:\test_txt\OnlyOneLine.txt"  
+测试结果：
+```
+文件字符数为：59
+文件单词数为：3
+文件行数为：1
+```
+#### 一个典型的源文件测试
+命令：java -jar wc.jar -c -w -l "D:\test_txt\Current.txt"  
+测试结果：
+```
+文件字符数为：27
+文件单词数为：6
+文件行数为：2
+```
+#### -x参数测试
+命令：java -jar wc.jar -x -c -w -l  
+测试结果：
+```
+D:\test_txt\OnlyOneChar.txt
+文件字符数为：1
+文件单词数为：0
+文件行数为：1
+```
+#### 测试图片
+![](img/test.png)
+![](img/xTest.png)
+
+## 总结
+在本次项目开发过程中，有以下几点总结与教训：  
+1. 要加大前期计划与分析的时间投入
+2. 拒绝拖延症，早开始，早结束
